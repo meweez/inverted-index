@@ -7,15 +7,17 @@ import main.Document;
 public class TrieTree {
 	
 	public TrieNode root;
+	int height = 0;
 	
 	public TrieTree() {
 		root = new TrieNode(' ');
 		
 	}
 	//-----------------------------------------------------------------------
+	//O(h)=O(logn) h is height
 	public void add(String word,Document d){
         TrieNode current = root; 
-
+        height = Math.max(height, word.toCharArray().length);
         for (char ch : word.toCharArray() )
 
         {
@@ -29,7 +31,7 @@ public class TrieTree {
 
             {//don have it before
             	 TrieNode p = new TrieNode(ch);
-                 current.children.addend(p);
+                 current.children.add(p);
                  current = p;
             }
 
@@ -38,11 +40,11 @@ public class TrieTree {
 
         current.isEnd = true;
         if(!current.files.contain(d.name)){
-        	current.files.addend(d);
+        	current.files.add(d);
         }
 	}
 	//-----------------------------------------------------------------
-	
+	//O(h)=O(logn) h is height
     public void delete(String word)
 
     {
@@ -73,6 +75,7 @@ public class TrieTree {
     }
     
 	//-----------------------------------------------------------------
+  //O(h)=O(logn) h is height
     public TrieNode search(String word)
 
     {
@@ -98,6 +101,7 @@ public class TrieTree {
 
     }
     //-----------------------------------------------------------------------
+    //O(n)
 	public int number(TrieNode r){
 		
 		Nodelist nl = r.children.first;
@@ -109,30 +113,22 @@ public class TrieTree {
 		return n+1;
 	}
 	//--------------------------------------------------------------
+	//O(max h)  h is number of chsrs in word
 	public int height (TrieNode r){
 		
-		Nodelist nl = r.children.first;
-		int n = 0;
-		while(nl != null){
-			n =Math.max(n,number(nl.node));
-			nl = nl.link;
-		}
-		return n;
+		
+		return height;
 	}
 	//----------------------------------------------------------------------
 
-	
-//	
-//    public static void main(String[] args) {
-//    	System.out.println("hello");
+//------------------------------------------------------------------
+//	public static void main(String[] args) {
 //		TrieTree t = new TrieTree();
-//		Document d = new Document("", "");
+//		Document d = new Document("","");
+//		t.add("comp", d);
+//		t.add("maryam", d);
 //		t.add("hello", d);
-//		t.add("hi", d);
-//		t.delete("hello");
-//		System.out.println(t.number(t.root));
 //		t.traverseTrie(t.root, "");
-//		
 //	}
 
 }

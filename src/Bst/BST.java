@@ -11,12 +11,13 @@ public class BST {
 		
 	}
 	
+	//O(logn)
 	public boolean add(String key,Document d){
 		NodeBst t=root,s=null;
 		while(t!=null){
 			s=t;
 			if((t.value).compareTo(key)==0 ) {
-				  if(!t.files.contain(d.name)) t.files.addend(d);
+				  if(!t.files.contain(d.name)) t.files.add(d);
 				return false;
 			}
 			if( (t.value).compareTo(key)>0 ){//node is larger than key 
@@ -28,7 +29,7 @@ public class BST {
 		}
 		NodeBst p = new NodeBst(key);
 		p.lc=p.rc=null;
-		p.files.addend(d);
+		p.files.add(d);
 		if(s==null) {root = p;  return true; }
 		if((s.value).compareTo(key)>0){
 			s.lc = p;
@@ -38,18 +39,20 @@ public class BST {
 		return true;
 		
 	}
-	
+	//O(n)
+	int k=0;
 	public int number(NodeBst t){
 		if(t==null) return 0;
-		else return 1+number(t.lc)+number(t.rc);
+		else{ 
+		return 1+number(t.lc)+number(t.rc);}
 	}
-	
+	////O(n)
 	public int height(NodeBst t){
 		if(t==null) return 0;
 		else return 1 + Math.max(height(t.lc),height(t.rc));	
 	}
 	
-	
+	//O(logn)
 	public NodeBst binarySearch(String  s){
 		NodeBst t = root;
 		String key = s;
@@ -67,7 +70,7 @@ public class BST {
 		}
 		return null;
 	}
-	
+	//O(logn)
 	public void delete(NodeBst parent,NodeBst root,String key){
 		if(root==null){
 			return ;
@@ -127,7 +130,14 @@ public class BST {
 	            return s;
 	        
 	    }
-	
+//	public static void main(String[] args) {
+//		BST t = new BST();
+//		Document d = new Document("","");
+//		t.add("nt", d);
+//		t.add("hi", d);
+//		t.add("key", d);
+//		System.out.println(t.number(t.root));
+//	}
 	 
 
 }

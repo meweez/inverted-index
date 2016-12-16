@@ -14,7 +14,7 @@ public class TST {
 		buffer = new char[100];
 		
 	}
-	
+	//O(h)=O(logn) h is height
     public void add(String word,Document d)
 
     {
@@ -26,8 +26,7 @@ public class TST {
     public TSTNode add(TSTNode r, String word, int i,Document d)
 
     {
-        if (r == null)  {   r = new TSTNode(word.charAt(i));
-        }
+        if (r == null)  {   r = new TSTNode(word.charAt(i));  }
 
  
 
@@ -50,7 +49,7 @@ public class TST {
             else{
             	r.endofword = true;
             	if(!r.files.contain(d.name))
-            	r.files.addend(d);
+            	r.files.add(d);
             	
             }
 
@@ -60,7 +59,7 @@ public class TST {
         return r;
 
     }
-    
+  //O(h)=O(logn) h is height
     public void delete(String word)
 
     {
@@ -68,7 +67,7 @@ public class TST {
         delete(root, word, 0);
     }
 
-    /** function to delete a word **/
+    
 
     private void delete(TSTNode r, String word, int i)
 
@@ -89,7 +88,7 @@ public class TST {
 
         {
 
-            /** to delete a word just make endofword false **/
+            // to delete a word just make endofword false 
 
             if (r.endofword && i == word.length() - 1)
 
@@ -104,12 +103,12 @@ public class TST {
         }        
 
     }
-    
+    //O(n)
     public int number(TSTNode t){
 		if(t==null) return 0;
 		else return 1+number(t.left)+number(t.right)+number(t.middle);
 	}
-	
+    //O(n)
 	public int height(TSTNode t){
 		if(t==null) return 0;
 		else{ 
@@ -118,8 +117,8 @@ public class TST {
 			}	
 	}
 	
-    /** function to search for a word **/
-
+   
+	//O(h)=O(logn) h is height
     public TSTNode search(String word)
 
     {
@@ -128,7 +127,7 @@ public class TST {
 
     }
 
-    /** function to search for a word **/
+   
 
     private TSTNode search(TSTNode r,String word, int i)
 
@@ -167,22 +166,48 @@ public class TST {
         }        
 
     }
-   
+   // my first func
+    
+//    public void add(TSTNode root,int place,TSTNode node,String key,int i){
+//        //place 1 for lc
+//        //place 2 for child
+//        //place 3 foe rc
+//        
+//        if(node==null){
+//        	TSTNode n = new TSTNode(key.charAt(i));
+//          if(place==1){
+//            root.left = n;
+//          }else if(place==2){
+//            root.middle = n;
+//          }else if(place==3){
+//            root.right = n;
+//          }
+//          if(i==key.length()-1) {
+//            n.endofword = true;
+//            return;
+//          }
+//          
+//        }
+//        
+//        if(key.charAt(0)==node.data){      
+//            add(node,2,node.middle,key,i+1);
+//        }else if(key.charAt(0)<root.data){      
+//            add(node,1,node.left,key,i);
+//        }else if(key.charAt(0)>root.data){      
+//            add(node,3,node.right,key,i);
+//        }
+//        
+//      }
     
     
 //    public static void main(String[] args) {
-//		
-//		
-//    	TST t = new TST();
-//    	Document d = new Document("", "");
-//    	t.add("salam", d);
-//    	t.add("hello", d);
-//    	t.add("maryam", d);
-//    	System.out.println("nodes are " + t.number(t.root));
-//    	System.out.println("height " + t.height(t.root));
-//    	TSTNode tt =  t.TSTSearch(t.root, "salam", 0);
-//    	System.out.println(tt.data);
-//    	t.traverseTST(t.root,  0);
-//    	
+//		TST t = new TST();
+//		Document d= new Document("", "");
+//		t.add("maryam", d);
+//		t.add("sara", d);
+//		t.add("mery", d);
 //	}
+   
+    
+ 
 }

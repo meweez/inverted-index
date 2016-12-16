@@ -14,7 +14,7 @@ public class Stack {
 		
 	}
 	public void add(String command){
-		stack.addend(command);
+		stack.add(command);
 		top++;
 	}
 	 

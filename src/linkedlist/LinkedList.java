@@ -11,52 +11,34 @@ public class LinkedList {
 			
 	}
 	
-	public void addend(Document d){
-		Nodelist t = first;
-		Nodelist s =null;
-		
-		while(t!=null){
-			s=t;
-			t = t.link;}
-		
+	
+	//O(1)
+	public void add(Document d){
 		Nodelist p = new Nodelist(d);
-		p.doc = d;
-		p.name = d.name;
-		if(s==null) { first = p; size++; return;}
-		  s.link = p;
-		  size++;
+		p.link = first;
+		first = p;
+		size++;
+		
 	}
-	//for trie node
-	public void addend(TrieNode node){
-		Nodelist t = first;
-		Nodelist s =null;
-		
-		while(t!=null){
-			s=t;
-			t = t.link;}
-		
+	// add for trie node
+	//O(1)
+	public void add(TrieNode node){
 		Nodelist p = new Nodelist(node);
-		if(s==null) { first = p; size++; return;}
-		  s.link = p;
-		  size++;
+		p.link = first;
+		first = p;
+		size++;
 	}
+	
 	//for stack
-	
-	public void addend(String command){
-		Nodelist t = first;
-		Nodelist s =null;
-		
-		while(t!=null){
-			s=t;
-			t = t.link;}
-		
+	//O(1)
+	public void add(String command){
 		Nodelist p = new Nodelist(command);
-		if(s==null) { first = p; size++; return;}
-		  s.link = p;
-		  size++;
+		p.link = first;
+		first = p;
+		size++;
 	}
 	
-	 
+	 //O(n)
 	 public void del(Document d){
 		Nodelist t = first;
 		Nodelist s = null;
@@ -70,6 +52,7 @@ public class LinkedList {
 	    
 	}
 	 //for trie  node
+	//O(n)
 	 public void del(TrieNode node){
 			Nodelist t = first;
 			Nodelist s = null;
@@ -82,6 +65,8 @@ public class LinkedList {
 			
 		    
 		}
+	 //eshterak migirad
+	 //O(min(n+m))//lenght of 2 linked list
 	 public LinkedList participation(LinkedList l1){
 		 if(first==null ) return l1; 
 		 if(l1.first==null) return this;
@@ -89,7 +74,7 @@ public class LinkedList {
 		 Nodelist nl = l1.first;
 		 while(nl!=null){
 			 if(this.contain(nl.name)){
-				ans.addend(nl.doc);
+				ans.add(nl.doc);
 			 }
 			 nl = nl.link;
 				 
@@ -97,7 +82,7 @@ public class LinkedList {
 		 return ans;
 		 
 	 }
-	 
+	//O(n)
 	 public boolean contain(String s){
 		 Nodelist nl = first;
 		 while(nl!=null){
@@ -109,33 +94,5 @@ public class LinkedList {
 		 return false;
 		 
 	 }
-//	 public int  size(){
-//		 return  size(first);
-//	 }
-//	 
-//	 public int  size(Nodelist first){
-//		 Nodelist t = first;
-//		 if(t==null) return 0;
-//		 else return (1+size(t.link));
-//		 
-//	 }
-//	 public static void main(String[] args) {
-////		LinkedList l = new LinkedList();
-////		Document d = new Document("","hi");
-////		Nodelist p = new Nodelist(d);
-////		System.out.println("1 "+l.first);
-////		l.addend(d);
-////		System.out.println("2 "+l.first.name);
-////		System.out.println(l.size());
-////		Document dd = new Document("","hello");
-////		l.addend(dd);
-////		System.out.println("3 "+l.first.name);
-////		System.out.println(l.size());
-////		l.addend(d);
-////		System.out.println("4 "+l.first.name);
-////		System.out.println(l.size());
-//		 System.out.println("yes".equals("yes"));
-//		
-//	 }
 
 }

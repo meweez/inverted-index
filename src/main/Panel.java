@@ -59,7 +59,7 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 	JButton reset;
 	JButton help;
 	JButton exit;
-	final JFileChooser filechooser;
+	JFileChooser filechooser;
 	FileInputStream input;
 	File file;
 	Vector<Word> stopwords1;
@@ -70,13 +70,14 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 	TST tsttree = null;
 	TrieTree trietree = null;
 	
-//	String [] stack;
-//	int topofstack = 0;
+	//for working like cmd
 	stack.Stack stack = new stack.Stack();
 	int index = 0;
 	String precommand = "";
 	
-	int k=1;//itaretor for in order
+	//itaretor for inorder func
+	int k=1;
+	//for tst traverse
 	char buffer[] = new char[200];
 	
 	
@@ -140,15 +141,18 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 		bst=new JRadioButton("BST");
 		p2.add(bst);
 		bsttext = new JTextField();
+		bsttext.setFont(new Font("SansSerif", Font.ITALIC,25));
 		p2.add(bsttext);
 		bst.setSelected(true);
 		tst=new JRadioButton("TST");
 		p2.add(tst);
 		tsttext = new JTextField();
+		tsttext.setFont(new Font("SansSerif", Font.ITALIC,25));
 		p2.add(tsttext);
 		trie=new JRadioButton("TRIE");
 		p2.add(trie);
 		trietext = new JTextField();
+		trietext.setFont(new Font("SansSerif", Font.ITALIC,25));
 		p2.add(trietext);
 		ButtonGroup bg=new ButtonGroup();
 		bg.add(bst);
@@ -191,7 +195,6 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 		
 		display=new JTextArea();
 		display.setFont(new Font("SansSerif", Font.ITALIC,30));
-		//display.addKeyListener(this);
         JScrollPane scroll = new JScrollPane(display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setMinimumSize(new Dimension(160, 200));
         scroll.setPreferredSize(new Dimension(160, 200));
@@ -232,7 +235,6 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(filepath)));
 		
-			//System.out.println("hello "+filepath);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -259,7 +261,7 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 		}
 		return line;
 	}
-	//--------------------------------------------------------------------------------
+	//--------------split------------------------------------------------------------------
 	
 	public Vector<Word>  split(String lines){
 		String[] word;
@@ -280,8 +282,7 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		//-----------browse-------------------------------
+		//-----------browse-------------------------------------------------------------------------------------
 		if(e.getSource()==browse){// open
 			filechooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			int returnVal = filechooser.showOpenDialog(this);
@@ -291,7 +292,7 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 				
 			} 
 
-		}else if(e.getSource()==build){//------------build-------------------------
+		}else if(e.getSource()==build){//------------build-------------------------------------------------------------
 			if(file==null){
 				display.setText("NO DIRECTORY!");
 			}else{
@@ -316,11 +317,11 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 				}
 				double end = System.currentTimeMillis();
 				display.setText(display.getText()+"\n"+files.size()+"file exist \n "+bsttree.number(bsttree.root)+"node is in binarysearchtree");
-				bsttext.setText("Height is "+bsttree.height(bsttree.root)+"\n \\ time of make it ="+(end-start)+"ms");
+				bsttext.setText("Height is "+bsttree.height(bsttree.root)+" \n \\ time of make it ="+(end-start)+"ms");
 				
 				
 				}else if(tst.isSelected()){
-					//if is tst---------------------------------------------
+				//if is tst---------------------------------------------
 					double start = System.currentTimeMillis();
 					tsttree = new TST();
 					for(Document doc : files){
@@ -328,17 +329,16 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 						for(Word wo: words){
 							String s = wo.word;
 							if(!s.equals("") && !stopwords.contains(s)){
-								//System.out.println(s);
 							  tsttree.add(s, doc);}
 						}
 					}
 					double end = System.currentTimeMillis();
-					display.setText(display.getText()+"\n"+files.size()+"file exist \n "+tsttree.number(tsttree.root)+"node is in binarysearchtree");
+					display.setText(display.getText()+"\n"+files.size()+"file exist \n "+tsttree.number(tsttree.root)+"node is in tree");
 					tsttext.setText("Height is "+tsttree.height(tsttree.root)+"\n \\ time of make it ="+(end-start)+"ms");
 					
 					
 				}else if(trie.isSelected())
-				{
+				{//if is trie---------------------------------------------
 					
 					double start = System.currentTimeMillis();
 					trietree = new TrieTree();
@@ -351,40 +351,38 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 						}
 					}
 					double end = System.currentTimeMillis();
-					display.setText(display.getText()+"\n"+files.size()+"file exist \n "+trietree.number(trietree.root)+"node is in binarysearchtree");
+					display.setText(display.getText()+"\n"+files.size()+"file exist \n "+trietree.number(trietree.root)+"node is in tree");
 					trietext.setText("Height is "+(trietree.height(trietree.root)+1)+"\n \\ time of make it ="+(end-start)+"ms");
 					
 				}
 			
 			
 			}
-		}else if(e.getSource() == reset){//---------reset-----------------
-			//i wan to use regx but i can not
+		}else if(e.getSource() == reset){//---------reset-------------------------------------------------------------------------
+			//i wan to use regx but i couldn't
 			//command.matches("[\\s]*add[\\s]*\\((.+)\\)[\\s]*")
 			String command1 = t2.getText();
 			reset(command1);
 
-		}else if(e.getSource()==exit){
+		}else if(e.getSource()==exit){//---------exit-------------------------------------------------------------------------
 			System.exit(0);
-		}else if(e.getSource()==help){
+		}else if(e.getSource()==help){//---------help-------------------------------------------------------------------------
 			display.setText(display.getText() + "\n" + "for make a tree use build button after define your folder");
 			
 			
 		}
 		
 	}
-//-------------------------------------------------------------------------------------------------------------------
+//-----------------------------reset function--------------------------------------------------------------------------------------
 	public void reset(String command1){
 		if(command1!="" && command1!="please enter your command")
 		{
 			stack.add(command1);
 			index = stack.top;
-			//stack[topofstack++] = command1;
-			//index = topofstack-1;
 			
 			String [] command = command1.split("[^A-Za-z1-9]+");
 			
-			if(command[0].equals("add")){//for add an file
+			if(command[0].equals("add")){//for add an file-------------------------------------------------------------
 				
 				File ff = new File(t1.getText()+"\\"+command[1]+".txt");
 				
@@ -400,10 +398,8 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 						if(dd.address.equals(newdoc.address)){
 							display.setText(display.getText() + "\n" + "err: already exists, you may want to update");
 							found = true;
-							System.out.println("hello"+found);
 							break;}
 					}
-					System.out.println(found);
 					if(!found){//if file not exist before
 						
 							Vector<Word> words = newdoc.words;
@@ -426,16 +422,15 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 					
 					
 				} catch (FileNotFoundException e1) {
-					System.out.println("file nist");
 					display.setText(display.getText() + "\n" + "err : document not found");
 				}
 				
 				
-				//----------------end add an file--------------------------------	
+		//----------------end add an file-------------------------------------------------------------------------------	
 			}else if(command[0].equals("dl")){
+				//for delete-------------------------------------------------------------
+				boolean found = false;
 				for(Document dd : files){//understand file exists or not
-					
-					System.out.println(dd.name+"  "+command[1]+".txt");
 					if(dd.name.equals(command[1]+".txt")){
 						///we HAD file
 						if(bsttree != null){
@@ -445,7 +440,6 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 							}
 						}else if(tsttree != null){
 							for(Word w : dd.words){
-								System.out.println(w.word);
 								tsttree.delete(w.word);
 							}
 						}else if(trietree != null){
@@ -454,14 +448,16 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 							}
 						}
 						files.removeElement(dd);
+						found = true;
 						display.setText(display.getText() + "\n" + "found file and delete it");
 						break;
 						}
 				
 			}
+				if(!found) display.append("\n" + " not found file ");
 			
 		//----------------------------------end of delete a file-------------------		
-		}else if(command[0].equals("update")){
+		}else if(command[0].equals("update")){//----------------update an file----------------------------------------------------------------	
 			
 			File ff = new File(t1.getText()+"\\"+command[1]+".txt");
 			
@@ -510,21 +506,18 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 				
 				
 			} catch (FileNotFoundException e1) {
-				System.out.println("file nist");
 				display.setText(display.getText() + "\n" + "err : document not found");
 			}	
-			//----------------end update an file--------------------------------	
-			}else if(command[0].equals("list")){
+			//----------------end update an file----------------------------------------------------------------	
+			}else if(command[0].equals("list")){//----------list command---------------------------------------------------------------------
 				
 				if(command[1].equals("w")){
 					   if(bst.isSelected() && bsttree!=null){
-						   //recursive
-						   System.out.println("bst is not null");
+						   
 						   k=1;
 						   inorder(bsttree.root);
-												   
 					   }else if(tst.isSelected() && tsttree!=null){
-						  traverseTST(tsttree.root, 0);
+						  traverse(tsttree.root, "");
 						   
 					   }else if(trie.isSelected() && trietree !=null){
 						   traverseTrie(trietree.root,"");
@@ -543,8 +536,8 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 					}
 					
 				}
-			//----------end list command----------------------------	
-			}else if(command[0].equals("search")){
+			//----------end list command---------------------------------------------------------------------	
+			}else if(command[0].equals("search")){//----------search  command---------------------------------------------------------------------
 				 if(command[1].equals("w")){//word
 					 	if(bst.isSelected() && bsttree!=null){
 					 		
@@ -592,15 +585,15 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 									  
 						 		}
 						   }
-						
+						//end of search word---------------------------------------------------------------------------
 					}else if(command[1].equals("s")){//sentences
 						boolean notfound =false;
 						LinkedList ans = new LinkedList();
-						for(int i = 2; i < command.length; i++){
+						double ss = System.currentTimeMillis();
+						for(int i = 2; i < command.length; i++){//for each word
 							if(!stopwords.contains(command[i].toLowerCase())){
 								if(bst.isSelected() && bsttree!=null){
-									System.out.println(command[i]);
-									
+																
 									NodeBst t = bsttree.binarySearch(command[i]);
 							 		 if(t!=null){
 								 			LinkedList ans1 = t.files;
@@ -637,30 +630,59 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 					
 							}
 						}
+						
 						display.setText(display.getText() + "\nresult : ");
 						if(ans!=null && !notfound){
 							Nodelist nl = ans.first;
 							while(nl != null){
-								display.setText(display.getText() + nl.name );
+								display.setText(display.getText() + nl.name +"->  ");
+								//from here===========================================================================
+								int numberofwords = command.length - 2;
+								//j contain place of each word
+								int [] j  = new int[numberofwords];
+								for (int i = 0; i < numberofwords; i++){
+									for(Word w : nl.doc.words){
+										if((w.word).equals(command[i+2])){
+											j[i] = w.place-1;
+											break;
+										}
+									}								
+								}
+								int i;boolean b = true;
+								for( i=0;i<numberofwords-1  ;i++){
+										
+											display.append("(...");
+											if(j[i]-1>=0)
+											display.append(nl.doc.words.elementAt(j[i]-1).word + " ");
+											if(j[i] < nl.doc.words.size())
+											display.append(nl.doc.words.elementAt(j[i]).word + " ");
+											if(j[i]+1 < nl.doc.words.size())
+											display.append(nl.doc.words.elementAt(j[i]+1).word + " ");
+											display.append("...)");										
+										
+								}
+								//to here is for more implemention ==========================================================================
+								
 								nl = nl.link;
+								display.append("\n");
 							}	
 						}
+						double e = System.currentTimeMillis();
+						System.err.println(ss-e);
 						
-					}
-			}
-	    }
+					}//end if search sentence---------------------------------------------------------------------
+			}//end if search command---------------------------------------------------------------------
+	    }//end of if(command1!="" && command1!="please enter your command")-----------------------------------
 
-	}
+	}//end of reset func-----------------------------------------------------------------
+	
 	//for list -w in bst--------------------------------------------------------
+	//O(n)
 	public void inorder(NodeBst root){
 		if(root == null) return;
-		//System.out.println("word "+root.value+" "+k);
 		Nodelist nl = root.files.first;
-		//System.out.println("size  "+root.files.size);
 		display.setText(display.getText() +"\n"+(k++) +" " + root.value +" : ");
-		//System.out.println(root.files.size());
 		while(nl != null){
-			//System.out.println("hello");
 			display.setText(display.getText() +"," +" " + nl.name );
 			nl = nl.link;
 		}
@@ -669,47 +691,44 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
 	}
 	
 	//for list -w in tst--------------------------------------------------------
-	void traverseTST(TSTNode root, int depth)
+	//O(n)
+	int l=0;
+    private void traverse(TSTNode r, String str)
+
     {
-        if (root != null)
+
+        if (r != null)
+
         {
-            // First traverse the left subtree
-            traverseTST(root.left,  depth);
-     
-            // Store the character of this node
-            buffer[depth] = root.data;
-            if (root.endofword)
-            {
-                buffer[depth+1] = '\0';
-                String b = "";
-                int i=0;
-                while(buffer[i] != '\0'){
-                	
-                	b +=buffer[i++]; 
-                }
-                Nodelist nl = root.files.first;
-                display.setText(display.getText() +"\n"+(k++) +" " + b +" : ");
-        		//System.out.println(root.files.size());
-        		while(nl != null){
-        			//System.out.println("hello");
-        			display.setText(display.getText() +"," +" " + nl.name );
-        			nl = nl.link;
-        		}
-                
-                
+            
+            
+            str = str + r.data;
+
+            if (r.endofword){
+            	  Nodelist nl = r.files.first;
+            	  display.setText(display.getText() +"\n"+(k++) +" " + str +" : ");
+            	  while(nl != null){
+            		  display.setText(display.getText() +"," +" " + nl.name );
+            		  nl = nl.link;
+            	  	}
             }
-     
-            // Traverse the subtree using equal pointer (middle subtree)
-            traverseTST(root.middle, depth + 1);
-     
-            // Finally Traverse the right subtree
-            traverseTST(root.right,  depth);
+
+            traverse(r.middle, str);
+            str = str.substring(0, str.length() - 1);
+            
+            
+            traverse(r.left, str);
+            traverse(r.right, str);
+
         }
+
     }
-	//----------------------------------------------------------------
+	//for trie ----------------------------------------------------------------
+    //O(N)
 	public void traverseTrie(TrieNode r,String word) {
 		
 		if(r.isEnd){
+			word += r.ch;
 			Nodelist nl = r.files.first;
             display.setText(display.getText() +"\n "+word+" : ");
     		while(nl != null){
@@ -718,13 +737,15 @@ public class Panel extends JPanel implements MouseListener,KeyListener{
     		}
 			
 		}
+		if(r.ch != ' ')
+		word += r.ch;
 		TrieNode node = r;
 		Nodelist nl = node.children.first;
-		word += nl.node.ch;
 		while(nl != null){
 			traverseTrie(nl.node,word);
 			nl = nl.link;			
 		}
+		if(r.ch != ' ')
 		word = word.substring(0, word.length()-1);
 
 	}
